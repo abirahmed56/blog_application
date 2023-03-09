@@ -8,9 +8,16 @@ import {
   } from "@ant-design/icons";
   import { Layout, Menu } from "antd";
   import React, { useState } from "react";
-  const { Header, Sider, Content } = Layout;
-export default function Home() {
+  import Blogs from "../../components/blogs";
+  import { CreateBlogs } from "../../components/blogs/CreateBlogs";
+
+
+export default function home() {
+  const { Header, Sider } = Layout;
+
     const [collapsed, setCollapsed] = useState(false);
+
+    
     return (
       <Layout className="layout">
         <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -59,16 +66,13 @@ export default function Home() {
               }
             )}
           </Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-            }}
-          >
-            Content
-          </Content>
+          {/* <CreateBlogs /> */}
+
+          <Blogs />
         </Layout>
+        
       </Layout>
+      
+
     );
   }

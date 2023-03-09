@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/mongodb";
+import clientPromise from "../../../lib/mongodb";
 
 async function userhandler(req:any, res:any) {
     const client = await clientPromise;
@@ -19,6 +19,6 @@ async function userhandler(req:any, res:any) {
 
         return res.status(201).json({message: "new user created", user: newUser})
     }
-    
+
 }
 export default userhandler;

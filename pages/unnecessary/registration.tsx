@@ -7,7 +7,7 @@ import {
 import React, { useState } from 'react';
 
 const sendRequest = (value:any)=>{
-  fetch("../api/user",{
+  fetch("/api/user",{
     method: "POST",
     body: JSON.stringify({
       name: value.name,
