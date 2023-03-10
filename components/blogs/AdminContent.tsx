@@ -34,7 +34,7 @@ const Admin = () => {
             <Update data={data} />
             <Delete data={data} />
 
-            <Card title={data.tittle}>
+            <Card title={data.title}>
               <p> {data.content}</p>
             </Card>
             <br />

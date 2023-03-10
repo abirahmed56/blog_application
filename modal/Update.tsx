@@ -1,48 +1,46 @@
 import React from "react";
 import { EditFilled } from "@ant-design/icons";
-import { gql, useMutation } from "@apollo/client";
-import { Button, Drawer, message, Spin } from "antd";
-import { useForm } from "antd/lib/form/Form";
+import { Button, Drawer, message } from "antd";
 import { useToggle } from "../hooks/toggle";
 import { useEffect } from "react";
-import { Form, Input, Row, Col, Switch } from "antd";
+import { Form, Input, Row, Col } from "antd";
 
-function Update(prop:any) {
+function Update(props: any) {
   const { toggle, visible } = useToggle();
-  const resetFields = () => {
-    // form.setFieldsValue(props.document);
-  };
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue(props.data);
+  }, [props.data]);
+
   const updateRequest = (value: any) => {
-    console.log(prop);
-    const blogId = prop.data._id;
-    console.log(blogId)
-    
+    const blogId = props.data._id;
+
     fetch(
-      "/api/blogs/bloghandler?" + new URLSearchParams({
-          blogId
+      "/api/blogs/bloghandler?" +
+        new URLSearchParams({
+          blogId,
         }),
       {
         method: "PUT",
         body: JSON.stringify({
-          tittle: value.tittle,
+          title: value.title,
           content: value.content,
         }),
         headers: {
           "Content-Type": "application/json",
         },
       }
-    )
-      .then((res) => res.json)
-      .then((data) => console.log(data));
+    ).then((res) => res.json);
   };
 
   const onFinish = async (values: any) => {
-    console.log(values);
-    if (!values.tittle && !values.content) {
+    if (!values.title && !values.content) {
       return;
     } else {
       updateRequest(values);
-      message.success("UPDATED..")
+      message.success("UPDATED..");
+      toggle();
     }
   };
 
@@ -51,30 +49,27 @@ function Update(prop:any) {
   };
   return (
     <>
-      {/* <Button type="text" size="small" onClick={toggle}>
+      <Button type="text" size="small" onClick={toggle}>
         <EditFilled />
         Edit
-      </Button> */}
+      </Button>
       <Drawer
         destroyOnClose
         open={visible}
         width="100%"
         onClose={() => {
           toggle();
-          resetFields();
         }}
         title="Update Document"
         extra={[
-          <Button type="primary" key={0} onClick={console.log}>
+          <Button type="primary" key={0} onClick={form.submit}>
             Update
           </Button>,
         ]}
       >
-        {/* <Spin spinning={loading}>
-              <DocumentUpsertForm onSubmit={handleSubmit} form={form} />
-            </Spin> */}
         <Form
           layout="vertical"
+          form={form}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
@@ -84,8 +79,8 @@ function Update(prop:any) {
             </Col>
           </Row>
           <Form.Item
-            name="tittle"
-            label="Tittle"
+            name="title"
+            label="Title"
             rules={[
               {
                 required: true,
@@ -94,7 +89,7 @@ function Update(prop:any) {
               },
             ]}
           >
-            <Input placeholder="Tittle" />
+            <Input placeholder="Title" />
           </Form.Item>
 
           <Form.Item
@@ -109,9 +104,6 @@ function Update(prop:any) {
           >
             <Input.TextArea />
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Update
-          </Button>
         </Form>
       </Drawer>
     </>

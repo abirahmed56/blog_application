@@ -1,33 +1,34 @@
 import React from "react";
-import { Button, Drawer, message, Spin } from "antd";
+import { Button, Drawer, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useToggle } from "../hooks/toggle";
 import { Form, Input, Row, Col } from "antd";
 
 function Create() {
   const { toggle, visible } = useToggle();
+  const [form] = Form.useForm();
+
   const sendRequest = (value: any) => {
     fetch("/api/blogs/bloghandler", {
       method: "POST",
       body: JSON.stringify({
-        tittle: value.tittle,
+        title: value.title,
         content: value.content,
       }),
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((res) => res.json)
-      .then((data) => console.log(data));
+    }).then((res) => res.json);
   };
 
   const onFinish = async (values: any) => {
     console.log(values);
-    if (!values.tittle && !values.content) {
+    if (!values.title && !values.content) {
       return;
     } else {
       sendRequest(values);
       message.success("Created Successfull");
+      toggle();
     }
   };
 
@@ -44,19 +45,19 @@ function Create() {
         destroyOnClose
         open={visible}
         width="100%"
-        onClose={toggle}
+        onClose={() => {
+          toggle();
+        }}
         title="Create Document"
-        // extra={[
-        //   <Button type="primary" key={0} onClick={console.log}>
-        //     Create
-        //   </Button>,
-        // ]}
+        extra={[
+          <Button type="primary" key={0} onClick={form.submit}>
+            Create
+          </Button>,
+        ]}
       >
-        {/* <Spin spinning={loading}>
-          <DocumentUpsertForm onSubmit={handleSubmit} form={form} />
-        </Spin> */}
         <Form
           layout="vertical"
+          form={form}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
@@ -66,8 +67,8 @@ function Create() {
             </Col>
           </Row>
           <Form.Item
-            name="tittle"
-            label="Tittle"
+            name="title"
+            label="Title"
             rules={[
               {
                 required: true,
@@ -76,7 +77,7 @@ function Create() {
               },
             ]}
           >
-            <Input placeholder="Tittle" />
+            <Input placeholder="Title" />
           </Form.Item>
 
           <Form.Item
@@ -91,9 +92,6 @@ function Create() {
           >
             <Input.TextArea />
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            create
-          </Button>
         </Form>
       </Drawer>
     </>

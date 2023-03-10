@@ -5,7 +5,6 @@ async function blogHandler(req: any, res: any) {
   const client = await clientPromise;
 
   const db = client.db("articles");
-  const id = req.query.id!;
 
   if (req.method === "GET") {
     const articles = await db.collection("articles").find().toArray();
@@ -15,10 +14,10 @@ async function blogHandler(req: any, res: any) {
     }
     return res.status(200).json({ message: articles });
   } else if (req.method === "POST") {
-    const { tittle, content } = req.body;
+    const { title, content } = req.body;
 
     const newArticles = {
-      tittle,
+      title,
       content,
       date: new Date(),
     };
@@ -29,13 +28,10 @@ async function blogHandler(req: any, res: any) {
       .status(201)
       .json({ message: "new articles created", user: newArticles });
   } else if (req.method === "DELETE") {
-    console.log("in the delete file")
-    // const {_id} = req.query.blogId
-    console.log(req.query)
-    const query = {_id:new ObjectID(req.query.blogId)};
-    console.log(query);
+    const query = { _id: new ObjectID(req.query.blogId) };
 
     const articles = await db.collection("articles").deleteOne(query);
+
     if (articles.deletedCount === 1) {
       console.log("Successfully deleted one document.");
     } else {
@@ -43,29 +39,28 @@ async function blogHandler(req: any, res: any) {
     }
 
     return res.status(200).json({});
-
-    // const articles = await db.collection("articles").deleteOne(_id: new ObjectID({__id}))
   } else if (req.method === "PUT") {
-    const { tittle, content } = req.body;
-
-    const query = {_id:new ObjectID(req.query.blogId)};
-    console.log(query);
+    const { title, content } = req.body;
+    const query = { _id: new ObjectID(req.query.blogId) };
 
     const newArticles = {
-      tittle,
+      title,
       content,
       date: new Date(),
     };
+
     const articles = await db
       .collection("articles")
       .replaceOne(query, newArticles);
 
-      if(articles.modifiedCount){
-        console.log("Modified the document");
-      }else{
-        console.log("Not modified");
-      }
-    return res.status(200).json({newArticles})
+    if (articles.modifiedCount) {
+      console.log("Modified the document");
+    } else {
+      console.log("Not modified");
+    }
+
+    return res.status(200).json({ newArticles });
   }
 }
+
 export default blogHandler;
