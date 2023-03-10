@@ -7,11 +7,10 @@ const  Admin=()=> {
   const [data, setData] = useState();
 
   const deleteRequest = (value:any)=>{
-    fetch("/api/blogs/bloghandler",{
+    fetch("/api/blogs/bloghandler?" + new URLSearchParams ({
+      blogId: value._id
+    }),{
         method: "DELETE",
-        body:JSON.stringify({
-            _id: value._id,
-        })
     }).then((res)=>res.json).then((data)=>console.log(data));
 }
   const sendRequest = () => {

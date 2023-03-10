@@ -30,11 +30,13 @@ async function blogHandler(req: any, res: any) {
       .json({ message: "new articles created", user: newArticles });
   } else if (req.method === "DELETE") {
     console.log("in the delete file")
-    const {_id} = req.query.blogId
+    // const {_id} = req.query.blogId
     console.log(req.query)
-    const query = {_id:_id};
-    const result = await db.collection("articles").deleteOne(query);
-    if (result.deletedCount === 1) {
+    const query = {_id:new ObjectID(req.query.blogId)};
+    console.log(query);
+
+    const articles = await db.collection("articles").deleteOne(query);
+    if (articles.deletedCount === 1) {
       console.log("Successfully deleted one document.");
     } else {
       console.log("No documents matched the query. Deleted 0 documents.");
@@ -46,6 +48,8 @@ async function blogHandler(req: any, res: any) {
   } else if (req.method === "PUT") {
     const { tittle, content } = req.body;
 
+    const query = {_id:new ObjectID(req.query.blogId)};
+
     const newArticles = {
       tittle,
       content,
@@ -53,7 +57,28 @@ async function blogHandler(req: any, res: any) {
     };
     const articles = await db
       .collection("articles")
-      .replaceOne({ _id: new ObjectID() }, newArticles);
+      .replaceOne(query, newArticles);
+
+      if(articles.modifiedCount){
+        console.log("Modified the document");
+      }else{
+        console.log("Not modified");
+      }
+    return res.status(200).json({newArticles})
   }
 }
 export default blogHandler;
+// MongoClient.connect(url, function(err, db) {
+//   if(err!=null){
+//       return console.log(err.message)
+//   }
+// db.collection("App").deleteOne({_id:ObjectID('59c3dfa6d11caa3360af91cc')}, function (err,data) {
+
+//      if(err!=null){
+//           return console.log(err)
+//       }
+//       console.log(data);
+
+//   });
+
+// });
