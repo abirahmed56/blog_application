@@ -15,17 +15,18 @@ const  Blogs=()=> {
   }, []);
   return (
     <div>
+      <h1>WELCOME TO THE BLOG</h1>
     <br/>
     <br />
     <List
       grid={{
       gutter: 16,
       xs: 1,
-      sm: 1,
-      md: 1,
-      lg: 1,
-      xl: 1,
-      xxl: 1,
+      sm: 2,
+      md: 2,
+      lg: 3,
+      xl: 3,
+      xxl: 4,
       }}
           dataSource={data}
           renderItem={(data: any) => (

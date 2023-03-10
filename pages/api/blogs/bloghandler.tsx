@@ -49,6 +49,7 @@ async function blogHandler(req: any, res: any) {
     const { tittle, content } = req.body;
 
     const query = {_id:new ObjectID(req.query.blogId)};
+    console.log(query);
 
     const newArticles = {
       tittle,
@@ -68,17 +69,3 @@ async function blogHandler(req: any, res: any) {
   }
 }
 export default blogHandler;
-// MongoClient.connect(url, function(err, db) {
-//   if(err!=null){
-//       return console.log(err.message)
-//   }
-// db.collection("App").deleteOne({_id:ObjectID('59c3dfa6d11caa3360af91cc')}, function (err,data) {
-
-//      if(err!=null){
-//           return console.log(err)
-//       }
-//       console.log(data);
-
-//   });
-
-// });
