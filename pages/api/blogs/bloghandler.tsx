@@ -28,23 +28,32 @@ async function blogHandler(req: any, res: any) {
     return res
       .status(201)
       .json({ message: "new articles created", user: newArticles });
-  }else if(req.method === 'DELETE'){
-    const articlesId = req.query._id
-    const articles = await (await db.collection("articles").deleteOne(articlesId))
-  }
+  } else if (req.method === "DELETE") {
+    console.log("in the delete file")
+    const {_id} = req.query.blogId
+    console.log(req.query)
+    const query = {_id:_id};
+    const result = await db.collection("articles").deleteOne(query);
+    if (result.deletedCount === 1) {
+      console.log("Successfully deleted one document.");
+    } else {
+      console.log("No documents matched the query. Deleted 0 documents.");
+    }
 
-  else if(req.method === 'PUT'){
+    return res.status(200).json({});
 
+    // const articles = await db.collection("articles").deleteOne(_id: new ObjectID({__id}))
+  } else if (req.method === "PUT") {
     const { tittle, content } = req.body;
 
-
     const newArticles = {
-        tittle,
-        content,
-        date: new Date(),
-
-      };
-    const articles = await db.collection("articles").replaceOne({_id:new ObjectID}, newArticles)
+      tittle,
+      content,
+      date: new Date(),
+    };
+    const articles = await db
+      .collection("articles")
+      .replaceOne({ _id: new ObjectID() }, newArticles);
   }
 }
 export default blogHandler;

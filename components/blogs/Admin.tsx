@@ -1,23 +1,11 @@
 import React from "react";
 import { List, Card, Button } from "antd";
 import { useState, useEffect } from "react";
+import EditBlogs from "./EditBlogs";
 
 const  Admin=()=> {
   const [data, setData] = useState();
 
-  const updateRequest = (value:any)=>{
-    fetch("/api/blogs/bloghandler2",{
-        method: "PUT",
-        body:JSON.stringify({
-            tittle: value.tittle,
-            content: "No",
-            _id: value._id
-        }),
-        headers:{
-            "Content-Type":"application/json"
-        },
-    }).then((res)=>res.json).then((data)=>console.log(data));
-}
   const deleteRequest = (value:any)=>{
     fetch("/api/blogs/bloghandler",{
         method: "DELETE",
@@ -53,7 +41,7 @@ const  Admin=()=> {
           dataSource={data}
           renderItem={(data: any) => (
           <List.Item>
-              <Button onClick={((e)=>updateRequest(data))}>Edit</Button>
+              <Button>Edit</Button>
               <Button onClick={((e)=>deleteRequest(data))}>Delete</Button>
               <Card
               

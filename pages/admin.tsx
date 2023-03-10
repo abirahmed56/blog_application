@@ -10,7 +10,7 @@ function admin() {
   return (
     <>
         <Admin />
-        <Link href="/create">Create Blog</Link>
+        <Link href="/action/create">Create Blog</Link>
     </>
         
 
