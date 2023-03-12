@@ -16,9 +16,6 @@ const Blogs = () => {
   }, []);
   return (
     <div>
-      <h1>WELCOME TO THE BLOG</h1>
-      <br />
-      <br />
       <List
         grid={{
           gutter: 16,
