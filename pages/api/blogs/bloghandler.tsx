@@ -1,7 +1,11 @@
 import { ObjectID } from "bson";
 import clientPromise from "../../../lib/mongodb";
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]";
+
 
 async function blogHandler(req: any, res: any) {
+  const session = await getServerSession(req, res, authOptions)
   const client = await clientPromise;
 
   const db = client.db("articles");
