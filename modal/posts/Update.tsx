@@ -1,33 +1,45 @@
 import React from "react";
+import { EditFilled } from "@ant-design/icons";
 import { Button, Drawer, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { useToggle } from "../hooks/toggle";
+import { useToggle } from "../../hooks/toggle";
+import { useEffect } from "react";
 import { Form, Input, Row, Col } from "antd";
 
-function Create() {
+function Update(props: any) {
   const { toggle, visible } = useToggle();
   const [form] = Form.useForm();
 
-  const sendRequest = (value: any) => {
-    fetch("/api/blogs/bloghandler", {
-      method: "POST",
-      body: JSON.stringify({
-        title: value.title,
-        content: value.content,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => res.json);
+  useEffect(() => {
+    form.setFieldsValue(props.data);
+  }, [props.data]);
+
+  const updateRequest = (value: any) => {
+    const blogId = props.data._id;
+
+    fetch(
+      "/api/blogs/bloghandler?" +
+        new URLSearchParams({
+          blogId,
+        }),
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          title: value.title,
+          content: value.content,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => res.json);
   };
 
   const onFinish = async (values: any) => {
-    console.log(values);
     if (!values.title && !values.content) {
       return;
     } else {
-      sendRequest(values);
-      message.success("Created Successfull");
+      updateRequest(values);
+      message.success("UPDATED..");
       toggle();
     }
   };
@@ -35,11 +47,11 @@ function Create() {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
   return (
     <>
-      <Button onClick={toggle} type="primary" icon={<PlusOutlined />}>
-        New
+      <Button type="text" size="small" onClick={toggle}>
+        <EditFilled />
+        Edit
       </Button>
       <Drawer
         destroyOnClose
@@ -48,10 +60,10 @@ function Create() {
         onClose={() => {
           toggle();
         }}
-        title="Create Document"
+        title="Update Document"
         extra={[
           <Button type="primary" key={0} onClick={form.submit}>
-            Create
+            Update
           </Button>,
         ]}
       >
@@ -98,4 +110,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default Update;

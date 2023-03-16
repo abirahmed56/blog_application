@@ -1,6 +1,7 @@
 import Blogs from "../components/blogs";
 import { NextSeo } from "next-seo";
 import { useSession, signOut, signIn } from "next-auth/react";
+import BlogGuist from "../components/blogs/BlogGuist";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -15,7 +16,7 @@ export default function Home() {
         <br />
 
         <div>
-          <Blogs />
+          <Blogs authorName ={session?.user?.name}/>
         </div>
       </>
     );
@@ -25,7 +26,14 @@ export default function Home() {
     return(
       <>
         <div>You are not signIn..</div>
+        <h1>WELCOME AS A GUIST .........</h1>
         <button onClick={()=> signIn()}>signIn</button>
+        <br />
+        <br />
+
+        <div>
+          <BlogGuist />
+        </div>
       </>
 
     ) 

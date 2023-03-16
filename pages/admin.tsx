@@ -1,6 +1,6 @@
 import React from "react";
 import Admin from "../components/blogs/AdminContent";
-import Create from "../modal/Create";
+import Create from "../modal/posts/Create";
 import { NextSeo } from "next-seo";
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from "antd";
@@ -19,7 +19,7 @@ function admin() {
       <br />
       <br />
       <Button type="text" onClick={()=> signOut()}>signOut</Button>
-      <Create />
+      <Create session ={session}/>
       <Admin />
     </>
   );

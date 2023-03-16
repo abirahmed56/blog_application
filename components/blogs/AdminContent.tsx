@@ -1,8 +1,8 @@
 import React from "react";
 import { List, Card } from "antd";
 import { useState, useEffect } from "react";
-import Update from "../../modal/Update";
-import Delete from "../../modal/Delete";
+import Update from "../../modal/posts/Update";
+import Delete from "../../modal/posts/Delete";
 
 const Admin = () => {
   const [data, setData] = useState();
@@ -36,6 +36,7 @@ const Admin = () => {
 
             <Card title={data.title}>
               <p> {data.content}</p>
+              <p> {data.authorName}</p>
             </Card>
             <br />
             <br />

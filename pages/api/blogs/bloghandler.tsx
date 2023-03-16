@@ -18,11 +18,12 @@ async function blogHandler(req: any, res: any) {
     }
     return res.status(200).json({ message: articles });
   } else if (req.method === "POST") {
-    const { title, content } = req.body;
+    const { title, content, authorName } = req.body;
 
     const newArticles = {
       title,
       content,
+      authorName,
       date: new Date(),
     };
 
