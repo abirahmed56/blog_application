@@ -10,14 +10,14 @@ export default function App({  Component,  pageProps: { session, ...pageProps },
             title='Blog Application' 
             description='This is a Blog Application'
             openGraph={{
-                url: 'https://www.shutterstock.com',
+                url: 'https://media.sproutsocial.com',
                 title: 'Blog_Application',
                 description: 'Write and Read Blogs',
                 images:[
                     {
-                        url: 'https://www.shutterstock.com/image-photo/working-home-laptop-woman-writing-blog-348905468',
+                        url: 'https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png',
                         alt:'Blogs',
-                        type:'image/jpeg'
+                        type:'image/png'
                     },
                 ],
                 site_name: 'Blog_Application'
