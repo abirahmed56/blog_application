@@ -2,9 +2,9 @@ import React from "react";
 import { List, Card } from "antd";
 import { useState, useEffect } from "react";
 import Comments from "./Comments";
-import CreateComment from "../../modal/comments/CreateComment";
 
-const Blogs = (props: any) => {
+
+const BlogGuist = (props: any) => {
   const [data, setData] = useState();
 
   const sendRequest = () => {
@@ -34,7 +34,6 @@ const Blogs = (props: any) => {
             <Card title={data.title}>
               <p> {data.content}</p>
             </Card>
-            <CreateComment data={data} authorName={props.authorName}/>
             <Comments blogId ={data._id}/>
           </List.Item>
         )}
@@ -43,4 +42,4 @@ const Blogs = (props: any) => {
   );
 };
 
-export default Blogs;
+export default BlogGuist;

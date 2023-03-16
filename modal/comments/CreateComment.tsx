@@ -1,31 +1,29 @@
 import React from "react";
 import { EditFilled } from "@ant-design/icons";
 import { Button, Drawer, message } from "antd";
-import { useToggle } from "../hooks/toggle";
-import { useEffect } from "react";
+import { useToggle } from "../../hooks/toggle";
 import { Form, Input, Row, Col } from "antd";
 
-function Update(props: any) {
+function CreateComment(props: any) {
   const { toggle, visible } = useToggle();
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    form.setFieldsValue(props.data);
-  }, [props.data]);
-
-  const updateRequest = (value: any) => {
+  const createRequest = (value: any) => {
     const blogId = props.data._id;
 
     fetch(
-      "/api/blogs/bloghandler?" +
+      "/api/comments/commenthandler?" +
         new URLSearchParams({
           blogId,
+
         }),
       {
-        method: "PUT",
+        method: "POST",
         body: JSON.stringify({
-          title: value.title,
           content: value.content,
+          authorName: props.authorName,
+
+          
         }),
         headers: {
           "Content-Type": "application/json",
@@ -38,8 +36,8 @@ function Update(props: any) {
     if (!values.title && !values.content) {
       return;
     } else {
-      updateRequest(values);
-      message.success("UPDATED..");
+      createRequest(values);
+      message.success("successfully commented....");
       toggle();
     }
   };
@@ -51,7 +49,7 @@ function Update(props: any) {
     <>
       <Button type="text" size="small" onClick={toggle}>
         <EditFilled />
-        Edit
+        Comment
       </Button>
       <Drawer
         destroyOnClose
@@ -60,10 +58,10 @@ function Update(props: any) {
         onClose={() => {
           toggle();
         }}
-        title="Update Document"
+        title="Create Comment"
         extra={[
           <Button type="primary" key={0} onClick={form.submit}>
-            Update
+            Comment
           </Button>,
         ]}
       >
@@ -79,26 +77,12 @@ function Update(props: any) {
             </Col>
           </Row>
           <Form.Item
-            name="title"
-            label="Title"
-            rules={[
-              {
-                required: true,
-                message: "Please enter document title",
-                max: 30,
-              },
-            ]}
-          >
-            <Input placeholder="Title" />
-          </Form.Item>
-
-          <Form.Item
             name="content"
             label="Content"
             rules={[
               {
                 required: true,
-                message: "Please enter document content",
+                message: "Please enter comment content",
               },
             ]}
           >
@@ -110,4 +94,4 @@ function Update(props: any) {
   );
 }
 
-export default Update;
+export default CreateComment;

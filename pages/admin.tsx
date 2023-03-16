@@ -1,9 +1,12 @@
 import React from "react";
 import Admin from "../components/blogs/AdminContent";
-import Create from "../modal/Create";
+import Create from "../modal/posts/Create";
 import { NextSeo } from "next-seo";
+import { useSession, signOut } from 'next-auth/react'
+import { Button } from "antd";
 
 function admin() {
+  const {data: session} = useSession()
   return (
     <>
       <NextSeo
@@ -12,10 +15,11 @@ function admin() {
             
         />
      
-      <h1 className="admin_blog_tittle"> WELCOME TO THE ADMIN PANEL</h1>
+      <h1 className="admin_blog_tittle"> WELCOME {session?.user?.name}TO THE ADMIN PANEL</h1>
       <br />
       <br />
-      <Create />
+      <Button type="text" onClick={()=> signOut()}>signOut</Button>
+      <Create session ={session}/>
       <Admin />
     </>
   );
